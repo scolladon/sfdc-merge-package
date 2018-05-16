@@ -1,0 +1,25 @@
+{
+  "name": "sfdc-merge-package",
+  "version": "1.0.0",
+  "description": "Merge package.xml",
+  "keyword": [
+    "salesforce",
+    "package",
+    "cli"
+  ],
+  "main": "index.js",
+  "bin": {
+    "spc": "./bin/cli"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/scolladon/sfdc-merge-package.git"
+  },
+  "author": "Sébastien Colladon <colladonsebastien@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^2.9.0",
+    "extendify": "^1.0.0",
+    "xml2js": "^0.4.17"
+  }
+}

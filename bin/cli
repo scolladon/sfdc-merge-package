@@ -1,0 +1,15 @@
+#!/usr/bin/env node
+
+const program = require('commander');
+const orchestrator = require('../index.js');
+const pjson = require('../package.json');
+
+program
+  .description(pjson.description)
+  .version(pjson.version)
+  .option('-p, --packages [dir]', 'path to the packages.xml', './src/package.xml')
+  .parse(process.argv);
+orchestrator(program, console.log)
+.catch(function(err){
+  console.log(err);
+});
