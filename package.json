@@ -19,6 +19,7 @@
   "license": "MIT",
   "dependencies": {
     "commander": "^2.9.0",
+    "npm": "^6.0.1",
     "xml2js": "^0.4.17",
     "xmlbuilder": "^10.0.0"
   }
