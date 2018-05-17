@@ -35,6 +35,7 @@ $ smp -h
     -h, --help                   output usage information
     -V, --version                output the version number
     -p, --packages               path to the packages.xml
+    -o, --output                 path where to output the merged package.xml
 ```
 
 ### Module
@@ -43,7 +44,7 @@ $ smp -h
   var smp = require('sfdc-merge-package');
 
   smp({
-    'packages':'' // path to the packages.xml : ./src/packages.xml
+    'packages':'./src/packages.xml' // path to the packages.xml
   }, console.log);
 ```
 

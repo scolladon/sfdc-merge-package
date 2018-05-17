@@ -7,7 +7,8 @@ const pjson = require('../package.json');
 program
   .description(pjson.description)
   .version(pjson.version)
-  .option('-p, --packages [dir]', 'path to the packages.xml', './src/package.xml')
+  .option('-p, --packages [path]', 'path to the packages.xml', (v,m)=>{m.push(v);return m;},[])
+  .option('-o, --output [dir]', 'path where to output the merged package.xml', './')
   .parse(process.argv);
 orchestrator(program, console.log)
 .catch(function(err){
