@@ -26,7 +26,7 @@ yarn globally add sfdc-merge-package
 ```
 $ smp -h
 
-  Usage: spc [options]
+  Usage: smp [options]
 
   Merge package.xml
 

@@ -9,7 +9,7 @@
   ],
   "main": "index.js",
   "bin": {
-    "spc": "./bin/cli"
+    "smp": "./bin/smp"
   },
   "repository": {
     "type": "git",
