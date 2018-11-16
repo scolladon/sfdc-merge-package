@@ -9,7 +9,7 @@ program
   .description(pjson.description)
   .version(pjson.version)
   .option('-p, --packages [path]', 'path to the packages.xml', (v,m)=>{m.push(v);return m;},[])
-  .option('-o, --output [dir]', 'path where to output the merged package.xml', './')
+  .option('-o, --output [path]', 'path where to output the merged package.xml', './package.xml')
   .parse(process.argv);
 orchestrator(program, console.log)
 .catch(function(err){

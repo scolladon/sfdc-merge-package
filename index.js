@@ -4,8 +4,6 @@ const packageBuilder = require('./lib/utils/package-builder');
 const asyncReadFile = require('./lib/utils/async-read-file');
 const asyncXmlParser = require('./lib/utils/async-xml-parser');
 
-const PACKAGE_XML_FILE_NAME = 'package.xml';
-
 // Plugin to merge package.xml.
 module.exports = (config,logger) => {
 
@@ -24,7 +22,7 @@ module.exports = (config,logger) => {
       pkg.version = Math.max(...pkgs.map(p=>p.Package.version[0]));
       pkgs.forEach(p=>p.Package.types.reduce((r,e)=>pkg[e.name[0]] = [...new Set((pkg[e.name[0]] || []).concat(e.members))],pkg))
 
-      fs.writeFileSync(config.output + '/' + PACKAGE_XML_FILE_NAME, packageBuilder(pkg));
+      fs.writeFileSync(config.output, packageBuilder(pkg));
     })
     .catch(err =>
       reject(new Error(err))
