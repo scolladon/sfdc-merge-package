@@ -36,6 +36,10 @@ $ smp -h
     -o, --output [path]        path where to output the merged package.xml (default: "./package.xml")
     -h, --help                 display help for command
 ```
+### Example use:
+```sh
+smp -p ./package1.xml ./package2.xml -o ./combined-package.xml
+```
 
 ### Module
 
