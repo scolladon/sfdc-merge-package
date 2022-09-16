@@ -8,7 +8,7 @@ const asyncXmlParser = require('./lib/utils/async-xml-parser');
 module.exports = (config,logger) => {
 
   // Check if we have a non-empty list of packages
-  if(typeof config.packages === 'undefined' || config.packages === null || config.packages === []) {
+  if(!Array.isArray(config.packages) || config.packages.length === 0) {
     throw new Error('List of package.xml files can not be empty');
   }
 
