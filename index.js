@@ -7,9 +7,9 @@ const asyncXmlParser = require('./lib/utils/async-xml-parser');
 // Plugin to merge package.xml.
 module.exports = (config,logger) => {
 
-  // Check if we have enough config options
-  if(typeof config.packages === 'undefined' || config.packages === null) {
-    throw new Error('Not enough config options');
+  // Check if we have a non-empty list of packages
+  if(!Array.isArray(config.packages) || config.packages.length === 0) {
+    throw new Error('List of package.xml files can not be empty');
   }
 
   // The module return this promise

@@ -31,11 +31,14 @@ $ smp -h
   Merge package.xml
 
   Options:
-
-    -h, --help                   output usage information
-    -V, --version                output the version number
-    -p, --packages               path to the packages.xml
-    -o, --output                 path where to output the merged package.xml
+    -V, --version              output the version number
+    -p, --packages [paths...]  paths to the package.xml files (default: [])
+    -o, --output [path]        path where to output the merged package.xml (default: "./package.xml")
+    -h, --help                 display help for command
+```
+### Example use:
+```sh
+smp -p ./package1.xml ./package2.xml -o ./combined-package.xml
 ```
 
 ### Module
