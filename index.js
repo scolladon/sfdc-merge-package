@@ -20,7 +20,7 @@ module.exports = (config,logger) => {
       // Store max version;
       const pkg = {};
       pkg.version = Math.max(...pkgs.map(p=>p.Package.version[0]));
-      pkgs.forEach(p=>p.Package.types.reduce((r,e)=>pkg[e.name[0]] = [...new Set((pkg[e.name[0]] || []).concat(e.members))],pkg))
+      pkgs.filter(p=>p.Package.types).forEach(p=>p.Package.types.reduce((r,e)=>pkg[e.name[0]] = [...new Set((pkg[e.name[0]] || []).concat(e.members))],pkg))
 
       fs.writeFileSync(config.output, packageBuilder(pkg));
     })
