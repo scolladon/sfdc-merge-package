@@ -1,31 +1,54 @@
-'use strict';
-const fs = require('fs');
-const packageBuilder = require('./lib/utils/package-builder');
-const asyncReadFile = require('./lib/utils/async-read-file');
-const asyncXmlParser = require('./lib/utils/async-xml-parser');
+"use strict";
+const fs = require("fs").promises;
+const xml2js = require("xml2js");
+const toXml = require("./lib/utils/package-builder");
 
 // Plugin to merge package.xml.
-module.exports = (config,logger) => {
-
+module.exports = (config) => {
   // Check if we have a non-empty list of packages
-  if(!Array.isArray(config.packages) || config.packages.length === 0) {
-    throw new Error('List of package.xml files can not be empty');
+  if (!Array.isArray(config.packages) || config.packages.length === 0) {
+    throw new Error("List of package.xml files can not be empty");
   }
 
-  // The module return this promise
-  // This is where the job is done
- return new Promise((resolve, reject) => {
-    Promise.all(config.packages.map(x=>asyncReadFile(x).then(asyncXmlParser)))
-    .then(pkgs => {
-      // Store max version;
-      const pkg = {};
-      pkg.version = Math.max(...pkgs.map(p=>p.Package.version[0]));
-      pkgs.filter(p=>p.Package.types).forEach(p=>p.Package.types.reduce((r,e)=>pkg[e.name[0]] = [...new Set((pkg[e.name[0]] || []).concat(e.members))],pkg))
-
-      fs.writeFileSync(config.output, packageBuilder(pkg));
-    })
-    .catch(err =>
-      reject(new Error(err))
-    );
-  });
+  return merge(config);
 };
+
+const merge = async (config) => {
+  const packages = await parsePackages(config.packages);
+  const mergedPackage = mergePackages(packages);
+  const version = getMaxVersion(packages);
+
+  await fs.writeFile(config.output, toXml(mergedPackage, version));
+};
+
+const parsePackages = async (packagesLocation) => {
+  const packages = [];
+  for (const packageLocation of packagesLocation) {
+    const packageContent = await fs.readFile(packageLocation);
+    const parser = new xml2js.Parser();
+    const parsedPackage = await parser.parseStringPromise(packageContent);
+    if (parsedPackage?.Package?.types) {
+      packages.push(parsedPackage);
+    }
+  }
+  return packages;
+};
+
+const mergePackages = (packages) =>
+  packages.reduce((pkg, p) => {
+    p.Package.types
+      .filter((type) => type.members)
+      .forEach((type) => {
+        const typeName = type.name[0];
+        const existingMembers = pkg.get(typeName) ?? new Set();
+        pkg.set(typeName, new Set([...existingMembers, ...type.members]));
+      });
+    return pkg;
+  }, new Map());
+
+const getMaxVersion = (packages) =>
+  Math.max(
+    ...packages
+      .filter((p) => p.Package?.version?.[0])
+      .map((p) => p.Package.version[0])
+  );
