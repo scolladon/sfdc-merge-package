@@ -1,17 +1,20 @@
 #!/usr/bin/env node
-'use strict';
+"use strict";
 
-const program = require('commander');
-const orchestrator = require('../index.js');
-const pjson = require('../package.json');
+const program = require("commander");
+const orchestrator = require("../index.js");
+const pjson = require("../package.json");
 
 program
   .description(pjson.description)
   .version(pjson.version)
-  .option('-p, --packages [paths...]', 'paths to the package.xml files', [])
-  .option('-o, --output [path]', 'path where to output the merged package.xml', './package.xml')
+  .option("-p, --packages [paths...]", "paths to the package.xml files", [])
+  .option(
+    "-o, --output [path]",
+    "path where to output the merged package.xml",
+    "./package.xml"
+  )
   .parse(process.argv);
-orchestrator(program.opts(), console.log)
-.catch(function(err){
+orchestrator(program.opts()).catch(function (err) {
   console.log(err);
 });
